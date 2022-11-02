@@ -11,9 +11,8 @@
 
 * {
     box-sizing: border-box;
-    margin: 2;
     font-family: myfont, 'Fira sans', sans-serif;
-    text-align:center;
+    text-align: center;
     color: var(--light);
 }
 h1 {
