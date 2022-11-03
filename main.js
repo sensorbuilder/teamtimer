@@ -138,7 +138,6 @@ function createTableofRiders(){
             return false;
         };
         let idx = parseInt((rider + index) % numOfRiders);
-        console.log(rider, index, idx, numOfRiders);
             riderTbl +=`<tr rowId="${riders[idx].RiderId}">`
                 riderTbl +=`<td><div class="row_data" edit_type="click" col_name="Name">${riders[idx].Name}</div></td>`;
                 riderTbl +=`<td><div class="row_data" edit_type="click" col_name="Interval">${riders[idx].Interval}</div></td>`;
