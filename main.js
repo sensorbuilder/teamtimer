@@ -6,29 +6,36 @@ const btnReset = $('#btnReset');
 const btnPause = document.getElementById('btnPause');
 const txtNext = document.querySelector('.next');
 const ridersList = document.getElementById('ridersList');
-var riders = 
-[
-    {"RiderID": 0, "Name": "Rider1", "Interval": 20, "Active": true},
-    {"RiderID": 1, "Name": "Rider2", "Interval": 20, "Active": true},
-    {"RiderID": 2, "Name": "Rider3", "Interval": 20, "Active": true},
-    {"RiderID": 3, "Name": "Rider4", "Interval": 20, "Active": true},
-    {"RiderID": 4, "Name": "Rider5", "Interval": 20, "Active": true},
-    {"RiderID": 5, "Name": "Rider6", "Interval": 20, "Active": true},
-    {"RiderID": 6, "Name": "Rider7", "Interval": 20, "Active": false},
-    {"RiderID": 7, "Name": "Rider8", "Interval": 20, "Active": false}
-];
-
-
 let rider = 0 //starting position
 let numOfRiders = 8;
+var riders = {};
+
+function createRiderList () {
+    rdrs = {};
+    for (let i = 0; i <8; i++) {
+        rdrs[i] = {RiderId:i, Name: "Rider"+(i+1), Interval:60, Active:true};
+    }
+    return rdrs;
+}
+
+//store rider object To LocalStorage
+function pushRidersTLS(r) {
+    localStorage.setItem("data" , JSON.stringify(r));
+}
+//get rider object From LocalStorage
+function getRidersFLS() {
+    var obj = {};
+    obj = JSON.parse(localStorage.getItem('data'));
+    return obj;
+}
 
 function updateActiveRiders() {
+    //only accept input from 3 till 8 and no characters  
     let i = $('.numberOfRiders tr div').html();
     if (!(isNaN(i) || ( i < 3 ) || (i > 8))) {
         numOfRiders = i;
         createTableofRiders();
     }
-
     $('.numberOfRiders tr div').html(numOfRiders);
     createTableofRiders();  
     
@@ -75,6 +82,10 @@ $(document).on('focusout', '.row_data', function(event) {
     } else {
         var col_val = row_div.html();
            riders[rowId][col_name] = col_val;
+           pushRidersTLS(riders);
+           console.log('riders pushed to localstorage');
+           console.log(riders);
+           console.log(getRidersFLS());
     }
 })
 
@@ -125,7 +136,7 @@ function createTableofRiders(){
     $.each(riders, function(index){
         if (index == numOfRiders) {return false};
         let idx = (rider + index) % numOfRiders;
-            riderTbl +=`<tr rowId="${riders[idx].RiderID}">`
+            riderTbl +=`<tr rowId="${riders[idx].RiderId}">`
                 riderTbl +=`<td><div class="row_data" edit_type="click" col_name="Name">${riders[idx].Name}</div></td>`;
                 riderTbl +=`<td><div class="row_data" edit_type="click" col_name="Interval">${riders[idx].Interval}</div></td>`;
             });
@@ -155,11 +166,18 @@ $(document).find('.numberOfRiders').html(riderTbl);
 
 
 function startOnload(){
+    //Initialize RiderList
+    if (!localStorage.getItem('data')) {
+        riders = createRiderList(); //initial rider setup
+        pushRidersTLS(riders);
+    
+    } else {
+        riders = getRidersFLS();
+    }
     $.when( $.ready ).then(function () {
         createTableofRiders();
         createTableNumberOfRiders()
-    });
-    
+    });   
 }
 
 startOnload();
