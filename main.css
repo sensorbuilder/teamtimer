@@ -3,6 +3,7 @@
     --dark: #0f1d31;
     --darker: #0d1014;
     --light: #fafa22;
+    --lighter: #ffa126;
 }
 @font-face {
     font-family: "myfont";
@@ -39,11 +40,16 @@ body {
 .timer {
     font-size: 4rem;
     font-weight: 200;
+    color: var(--light);
+    background-color: var(--darker);
+    margin: 1rem;
 }
 .next {
     font-size: 3rem;
     font-weight: 200;
-    background-color: black;
+    color: black;
+    margin: 1rem;
+    background-color: var(--light);
     border-radius: 1rem;
 }
 
