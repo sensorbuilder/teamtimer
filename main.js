@@ -113,6 +113,7 @@ function start() {
 function next() {
     let nextRider = rider++ % numOfRiders;
     myIntervalTimer = (riders)[nextRider].Interval;
+    console.log((riders)[nextRider].RiderId);
     txtNext.innerText = (riders)[nextRider].Name;
     createTableofRiders();
 }
@@ -130,9 +131,14 @@ function createTableofRiders(){
     riderTbl +='</thead>';
 
     riderTbl +='<tbody>';
-    $.each(riders, function(index){
-        if (index == numOfRiders) {return false};
-        let idx = (rider + index) % numOfRiders;
+    console.log(riders);
+    $.each(riders, function(i){
+       var index = parseInt(i); 
+        if (index == numOfRiders) {
+            return false;
+        };
+        let idx = parseInt((rider + index) % numOfRiders);
+        console.log(rider, index, idx, numOfRiders);
             riderTbl +=`<tr rowId="${riders[idx].RiderId}">`
                 riderTbl +=`<td><div class="row_data" edit_type="click" col_name="Name">${riders[idx].Name}</div></td>`;
                 riderTbl +=`<td><div class="row_data" edit_type="click" col_name="Interval">${riders[idx].Interval}</div></td>`;
@@ -170,6 +176,7 @@ function startOnload(){
     
     } else {
         riders = getRidersFLS();
+        //console.log(riders);
     }
     $.when( $.ready ).then(function () {
         createTableofRiders();
