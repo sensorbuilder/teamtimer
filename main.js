@@ -83,9 +83,6 @@ $(document).on('focusout', '.row_data', function(event) {
         var col_val = row_div.html();
            riders[rowId][col_name] = col_val;
            pushRidersTLS(riders);
-           console.log('riders pushed to localstorage');
-           console.log(riders);
-           console.log(getRidersFLS());
     }
 })
 
