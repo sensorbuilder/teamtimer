@@ -9,6 +9,8 @@ const ridersList = document.getElementById('ridersList');
 let rider = 0 //starting position
 let numOfRiders = 8;
 var riders = {};
+let myIntervalTimer = 0; //in seconds
+var myInterval = null; //variable for setinterval object
 
 function createRiderList () {
     rdrs = {};
@@ -31,18 +33,28 @@ function getRidersFLS() {
 
 function updateActiveRiders() {
     //only accept input from 3 till 8 and no characters  
-    let i = $('.numberOfRiders tr div').html();
+    let i = parseInt($('.numberOfRiders tr div').html());
     if (!(isNaN(i) || ( i < 3 ) || (i > 8))) {
-        numOfRiders = i;
+        console.log(rider, numOfRiders);
+        if ((rider % numOfRiders == 0) && (rider > 0)) {
+            rider = numOfRiders;
+        } 
+        else
+        { 
+            rider = rider % numOfRiders;
+            numOfRiders = i;
+            
+        }
+        console.log(rider , i, numOfRiders);
         createTableofRiders();
+        
     }
     $('.numberOfRiders tr div').html(numOfRiders);
-    createTableofRiders();  
+    //createTableofRiders();  
     
 }
 
-let myIntervalTimer = 5; //in seconds
-var myInterval = null;
+
 
 btnStartNext.click(function() {
     start();
@@ -113,7 +125,7 @@ function start() {
 function next() {
     let nextRider = rider++ % numOfRiders;
     myIntervalTimer = (riders)[nextRider].Interval;
-    console.log((riders)[nextRider].RiderId);
+//    console.log((riders)[nextRider].RiderId);
     txtNext.innerText = (riders)[nextRider].Name;
     createTableofRiders();
 }
