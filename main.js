@@ -197,5 +197,5 @@ function startOnload(){
         createTableofRiders();
     });   
 }
-localStorage.clear();
+//localStorage.clear();
 startOnload();
