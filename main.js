@@ -3,6 +3,7 @@
 const txtTimer = document.querySelector('.timetrialer .timer');
 const btnStartNext = $('#btnStartNext');
 const btnReset = $('#btnReset');
+const bntResetLocalStorage = $('#btnResetLocalStorage');
 const btnPause = document.getElementById('btnPause');
 const txtNext = document.querySelector('.next');
 const ridersList = document.getElementById('ridersList');
@@ -30,6 +31,11 @@ function getRidersFLS() {
     obj = JSON.parse(localStorage.getItem('data'));
     return obj;
 }
+
+bntResetLocalStorage.click(function() {
+    localStorage.clear();
+    startOnload();
+});
 
 btnStartNext.click(function() {
     start();
@@ -197,5 +203,4 @@ function startOnload(){
         createTableofRiders();
     });   
 }
-//localStorage.clear();
 startOnload();
