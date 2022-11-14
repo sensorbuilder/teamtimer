@@ -7,9 +7,11 @@ const bntResetLocalStorage = $('#btnResetLocalStorage');
 const btnPause = document.getElementById('btnPause');
 const txtNext = document.querySelector('.next');
 const ridersList = document.getElementById('ridersList');
+const webStoreURL = 'http://192.168.2.81:5000';
+
 let rider = 0 //starting position
 let numOfRiders = 8;
-var riders = [];
+var riders = {};
 let myIntervalTimer = 0; //in seconds
 var myInterval = null; //variable for setinterval object
 
@@ -25,6 +27,15 @@ function createRiderList () {
 function pushRidersTLS(r) {
     localStorage.setItem("data" , JSON.stringify(r));
 }
+
+//get riders from webstore
+//function getRidersFWB () {
+//    axios.get('http://192.168.2.81:5000/team/1')
+//    .then(function(response) {
+//        riders = response.data.riderList;
+//    });
+//}
+
 //get rider object From LocalStorage
 function getRidersFLS() {
     var obj = {};
@@ -203,4 +214,19 @@ function startOnload(){
         createTableofRiders();
     });   
 }
-startOnload();
+
+async function startOnWebload () {
+    await axios.get('http://192.168.2.81:5000/team/1')
+    .then(function(response) {
+        riders = response.data.riderList;
+    });
+    console.log('riders :', riders);
+
+    $.when( $.ready ).then(function () {
+        txtNext.innerText = riders[0].RiderName;
+        txtTimer.innerText = riders[0].Interval;
+        createTableofRiders();
+    });   
+}
+
+startOnWebload();
